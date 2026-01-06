@@ -9,12 +9,7 @@ TwitterIcon.propTypes = {
   size: PropType.number
 };
 
-TwitterIcon.defaultProps = {
-  disabled: false,
-  size: 24
-};
-
-export default function TwitterIcon({ disabled, size, ...other }) {
+export default function TwitterIcon({ disabled = false, size = 24, ...other }) {
   const disabledColor = '#ccc';
 
   return (

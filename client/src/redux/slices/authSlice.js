@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { auth as firebaseAuth } from '../../firebase';
+
 import * as api from '../../api';
 import { regexCons } from '../../constants';
 
@@ -109,22 +109,13 @@ export const sentOtpViaPhone = (phone) => async (dispatch) => {
     const { data } = await api.isExistedAccountPhone(phone);
     console.log('isExistedAccountPhone', data);
     if (data?.data?.isExisted) {
-      const appVerifier = window.recaptchaVerifier;
-
-      if (phone.startsWith('0')) {
-        phone = `+84${phone.substring(1)}`;
-      }
-
-      firebaseAuth
-        .signInWithPhoneNumber(phone, appVerifier)
-        .then((confirmResult) => {
-          console.log(`OTP is sent to ${phone}`);
-          dispatch(actions.sentPhoneOtpSuccess({ emailOrPhone: phone, confirmResult }));
+      // Firebase OTP removed
+      dispatch(
+        actions.hasErrorOtp({
+          error: { message: { vi: 'Chức năng OTP chưa được hỗ trợ', en: 'OTP feature is not supported' } },
+          emailOrPhone: phone
         })
-        .catch((error) => {
-          dispatch(actions.hasErrorOtp({ error, emailOrPhone: phone }));
-          console.log('error', error);
-        });
+      );
     } else {
       dispatch(
         actions.hasErrorOtp({

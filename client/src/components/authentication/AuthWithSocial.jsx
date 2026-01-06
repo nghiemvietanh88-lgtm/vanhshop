@@ -1,30 +1,18 @@
 // material
-import { Stack, Button, Divider, Typography } from '@material-ui/core';
-import { GoogleLogin } from 'react-google-login';
+import { Button, Divider, Stack, Typography } from '@material-ui/core';
 // hooks
 import { useSnackbar } from 'notistack';
 import useAuth from '../../hooks/useAuth';
 import useLocales from '../../hooks/useLocales';
 // icons
-import { FacebookIcon, GoogleIcon, TwitterIcon } from '../../assets';
+import { FacebookIcon, TwitterIcon } from '../../assets';
 
 // ----------------------------------------------------------------------
 
 export default function AuthWithSocial({ isLogin }) {
   const { t } = useLocales();
-  const { googleOAuth, loginWithFaceBook, loginWithTwitter } = useAuth();
+  const { loginWithFaceBook, loginWithTwitter } = useAuth();
   const { enqueueSnackbar } = useSnackbar();
-
-  const handleGoogleLoginSuccess = async (res) => {
-    const tokenId = res?.tokenId;
-    await googleOAuth(tokenId);
-  };
-
-  const handleGoogleLoginFailure = (err) => {
-    console.log('Google login failed', err);
-    const mess = t('auth.login-failed-with', { provider: 'Google', message: err.error });
-    enqueueSnackbar(mess, { variant: 'error' });
-  };
 
   const handleLoginFaceBook = async () => {
     try {
@@ -44,26 +32,7 @@ export default function AuthWithSocial({ isLogin }) {
 
   return (
     <>
-      <Stack direction="row" spacing={2}>
-        <GoogleLogin
-          clientId={108979140618268332858}
-          render={(renderProps) => (
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              onClick={renderProps.onClick}
-              disabled={renderProps.disabled}
-            >
-              <GoogleIcon disabled={renderProps.disabled} />
-            </Button>
-          )}
-          onSuccess={handleGoogleLoginSuccess}
-          onFailure={handleGoogleLoginFailure}
-          cookiePolicy="single_host_origin"
-        />
-
+      <Stack direction="row" spacing={2} justifyContent="center">
         <Button fullWidth size="large" color="inherit" variant="outlined" onClick={handleLoginFaceBook}>
           <FacebookIcon disabled />
         </Button>

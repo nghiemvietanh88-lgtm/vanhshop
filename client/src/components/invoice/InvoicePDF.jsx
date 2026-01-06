@@ -1,5 +1,7 @@
+import ReactPDF from '@react-pdf/renderer';
 import PropTypes from 'prop-types';
-import { Page, View, Text, Font, Image, Document, StyleSheet } from '@react-pdf/renderer';
+
+const { Page, View, Text, Font, Image, Document, StyleSheet } = ReactPDF;
 // utils
 import { fCurrency } from '../../utils/formatNumber';
 

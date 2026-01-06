@@ -1,15 +1,14 @@
 import PropTypes from 'prop-types';
 // material
-import { Box, Stack, TextField, Button } from '@material-ui/core';
+import { Box, Button, Stack, TextField } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
 // form validation
-import * as Yup from 'yup';
 import { Form, FormikProvider, useFormik } from 'formik';
+import * as Yup from 'yup';
 // hooks
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useLocales from '../../../hooks/useLocales';
 // firebase
-import firebase, { auth as firebaseAuth } from '../../../firebase';
 
 // ----------------------------------------------------------------------
 
@@ -22,8 +21,7 @@ export default function PhoneInputForm({ onOtpSent, onGoBack }) {
   const { t } = useLocales();
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    // eslint-disable-next-line import/no-named-as-default-member
+  /* useEffect(() => {
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('invisible-recaptcha', {
       size: 'invisible',
       defaultCountry: 'VN',
@@ -31,7 +29,7 @@ export default function PhoneInputForm({ onOtpSent, onGoBack }) {
         console.log('response', response);
       }
     });
-  }, []);
+  }, []); */
 
   const PhoneInputSchema = Yup.object().shape({
     phone: Yup.string()
@@ -45,24 +43,16 @@ export default function PhoneInputForm({ onOtpSent, onGoBack }) {
     },
     validationSchema: PhoneInputSchema,
     onSubmit: async (values, { setSubmitting, setErrors }) => {
-      const appVerifier = window.recaptchaVerifier;
+      // const appVerifier = window.recaptchaVerifier;
 
       if (values.phone.startsWith('0')) {
         values.phone = `+84${values.phone.substring(1)}`;
       }
 
       setIsLoading(true);
-      firebaseAuth
-        .signInWithPhoneNumber(values.phone, appVerifier)
-        .then((confirmResult) => {
-          console.log(`OTP is sent to ${values.phone}`);
-          onOtpSent(confirmResult);
-        })
-        .catch((error) => {
-          setErrors({ phone: t('address.phone-invalid') });
-          setSubmitting(false);
-          console.log('error', error);
-        });
+      console.log('Firebase OTP removed');
+      setErrors({ phone: t('address.phone-invalid') + ' (OTP removed)' });
+      setSubmitting(false);
       setIsLoading(false);
     }
   });

@@ -1,6 +1,10 @@
 // i18n
 import './i18n';
 
+// Polyfill for @react-pdf/renderer
+import Buffer from './utils/polyfill-buffer';
+window.Buffer = Buffer;
+
 // scroll bar
 import 'simplebar/src/simplebar.css';
 

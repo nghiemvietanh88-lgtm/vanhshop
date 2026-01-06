@@ -20,6 +20,7 @@ import {
   AccountGeneral,
   AccountNotifications
 } from '../../components/account';
+import OrderHistoryPage from './OrderHistoryPage';
 
 // ----------------------------------------------------------------------
 
@@ -82,10 +83,16 @@ export default function AccountPage() {
       value: 'config',
       icon: <Icon icon={baselineSettings} width={20} height={20} />,
       component: <AccountNotifications />
+    },
+    {
+      label: t('account.order'),
+      value: 'order',
+      icon: <Icon icon={roundAccountBox} width={20} height={20} />,
+      component: <OrderHistoryPage />
     }
   ];
 
-  const handleChangeTab = (event, newValue) => {
+  const handleChangeTab = (_event, newValue) => {
     navigate(`?tab=${newValue}`);
     setCurrentTab(newValue);
   };

@@ -2,16 +2,16 @@ import PropTypes from 'prop-types';
 // material
 import {
   Autocomplete,
-  IconButton,
   Box,
   Button,
-  Typography,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   Grid,
-  TextField
+  IconButton,
+  TextField,
+  Typography
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 // hooks
@@ -98,21 +98,21 @@ export default function OrderDetailForm({ order, open, setOpen, handleUpdate, ac
     setHasChange(false);
   }, [order]);
 
-  const handleChangeOrderStatus = (event, value) => {
+  const handleChangeOrderStatus = (_event, value) => {
     setOrderStatus(value.value);
     if (value.value !== order.status) {
       setHasChange(true);
     }
   };
 
-  const handleChangePaymentStatus = (event, value) => {
+  const handleChangePaymentStatus = (_event, value) => {
     setPaymentStatus(value.value);
     if (value.value !== order.paymentStatus) {
       setHasChange(true);
     }
   };
 
-  const handleChangePaymentMethod = (event, value) => {
+  const handleChangePaymentMethod = (_event, value) => {
     setPaymentMethod(value.value);
     if (value.value !== order.paymentMethod) {
       setHasChange(true);
@@ -158,6 +158,8 @@ export default function OrderDetailForm({ order, open, setOpen, handleUpdate, ac
           <Button size="large" variant="outlined" onClick={handleReOrder} disabled={order?.status !== 'completed'}>
             Đặt lại
           </Button>
+          {/* Tạm thời ẩn do PDF đang bị lỗi */}
+          {/* <InvoiceToolbar invoice={order} /> */}
         </Box>
       );
     }

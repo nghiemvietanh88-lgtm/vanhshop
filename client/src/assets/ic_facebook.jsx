@@ -9,12 +9,7 @@ FacebookIcon.propTypes = {
   size: PropType.number
 };
 
-FacebookIcon.defaultProps = {
-  disabled: false,
-  size: 24
-};
-
-export default function FacebookIcon({ disabled, size, ...other }) {
+export default function FacebookIcon({ disabled = false, size = 24, ...other }) {
   const disabledColor = '#ccc';
 
   return (

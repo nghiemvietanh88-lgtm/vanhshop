@@ -3,16 +3,16 @@ import { useEffect, useState } from 'react';
 import { Alert, Box, Button, Container, Typography } from '@material-ui/core';
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 // redux
-import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   checkOtpEmail,
   checkOtpPhone,
-  resetPassword as resetPasswordAction,
+  clearOtpState,
   resendOtp as resendOtpAction,
+  resetPassword as resetPasswordAction,
   sentOtpViaEmail,
-  sentOtpViaPhone,
-  clearOtpState
+  sentOtpViaPhone
 } from '../../redux/slices/authSlice';
 // layouts
 import LogoOnlyLayout from '../../layouts/LogoOnlyLayout';
@@ -25,7 +25,6 @@ import { CheckIcon, SentIcon } from '../../assets';
 import { regexCons } from '../../constants';
 import { useLocales } from '../../hooks';
 // firebase
-import firebase from '../../firebase';
 
 // ----------------------------------------------------------------------
 
@@ -64,16 +63,16 @@ export default function ResetPassword() {
     }
   }, [currentLang.value, otpError]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     // eslint-disable-next-line import/no-named-as-default-member
-    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('invisible-recaptcha', {
-      size: 'invisible',
-      defaultCountry: 'VN',
-      callback: (response) => {
-        console.log('response', response);
-      }
-    });
-  }, []);
+    // window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('invisible-recaptcha', {
+    //   size: 'invisible',
+    //   defaultCountry: 'VN',
+    //   callback: (response) => {
+    //     console.log('response', response);
+    //   }
+    // });
+  }, []); */
 
   const handleSendOtp = (emailOrPhone) => {
     if (regexCons.email.test(emailOrPhone)) {

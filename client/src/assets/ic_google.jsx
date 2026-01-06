@@ -9,12 +9,7 @@ GoogleIcon.propTypes = {
   size: PropType.number
 };
 
-GoogleIcon.defaultProps = {
-  disabled: false,
-  size: 24
-};
-
-export default function GoogleIcon({ disabled, size, ...other }) {
+export default function GoogleIcon({ disabled = false, size = 24, ...other }) {
   const disabledColor = '#ccc';
 
   return (

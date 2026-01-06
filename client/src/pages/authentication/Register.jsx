@@ -4,7 +4,7 @@ import { experimentalStyled as styled } from '@material-ui/core/styles';
 // form validation
 import * as Yup from 'yup';
 //
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // hooks
 import { useLocales } from '../../hooks';
@@ -16,8 +16,6 @@ import AuthLayout from '../../layouts/AuthLayout';
 import { MHidden } from '../../components/@material-extend';
 import RegisterForm from '../../components/authentication/register/RegisterForm';
 import Page from '../../components/Page';
-// firebase
-import firebase from '../../firebase';
 
 // ----------------------------------------------------------------------
 
@@ -56,28 +54,16 @@ export default function Register() {
   const [errorMgs, setErrorMgs] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
+  /* useEffect(() => {
     // eslint-disable-next-line import/no-named-as-default-member
-    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('invisible-recaptcha', {
-      size: 'invisible',
-      defaultCountry: 'VN',
-      callback: (response) => {
-        console.log('response', response);
-      }
-    });
-  }, []);
-
-  const PhoneInputSchema = Yup.object().shape({
-    phone: Yup.string()
-      .required(t('address.phone-required'))
-      .matches(/^\(?(([0-9]{3})|(\+84[0-9]{2}))\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/, t('address.phone-invalid'))
-  });
-
-  const handleRegister = () => {
-    if (phoneNumber === country.code) {
-      setErrorMgs(t('auth.phone-required'));
-    }
-  };
+    // window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('invisible-recaptcha', {
+    //   size: 'invisible',
+    //   defaultCountry: 'VN',
+    //   callback: (response) => {
+    //     console.log('response', response);
+    //   }
+    // });
+  }, []); */
 
   return (
     <RootStyle title={t('auth.page-title.register')}>

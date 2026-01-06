@@ -32,9 +32,13 @@ API.interceptors.request.use(requestInterceptor);
 
 // Add response interceptor
 const responseErrorHandler = (err) => {
-  if (err.response?.status === 401 || err.response?.status === 403) {
+  const originalRequest = err.config;
+  if (
+    (err.response?.status === 401 || err.response?.status === 403) &&
+    !originalRequest?.url?.includes('/auth/login')
+  ) {
     localStorage.removeItem('accessToken');
-    window.location.href = '/login';
+    window.location.href = '/auth/login';
   }
   return Promise.reject(err);
 };

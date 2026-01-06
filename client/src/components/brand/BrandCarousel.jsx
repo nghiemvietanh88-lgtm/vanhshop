@@ -35,17 +35,7 @@ BrandCarousel.propTypes = {
   sx: PropTypes.object
 };
 
-BrandCarousel.defaultProps = {
-  isLoading: false,
-  items: [],
-  numberShow: 5,
-  isShowTitle: true,
-  imgObjectFit: 'cover',
-  customHeight: 60,
-  sx: {}
-};
-
-export default function BrandCarousel({ isLoading, items, customHeight, sx }) {
+export default function BrandCarousel({ isLoading = false, items = [], customHeight = 60, sx = {} }) {
   const theme = useTheme();
   const carouselRef = useRef();
 

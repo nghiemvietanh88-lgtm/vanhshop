@@ -1,18 +1,17 @@
-import { useEffect } from 'react';
-import { useLocation, Outlet } from 'react-router-dom';
 import { experimentalStyled as styled } from '@material-ui/core/styles';
+import { useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 // material
 // hooks
-import { useGoogleOneTapLogin } from 'react-google-one-tap-login';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useAuth from '../../hooks/useAuth';
 // actions
-import { getAllCategories } from '../../redux/slices/categorySlice';
-import { getAllBrands } from '../../redux/slices/brandSlice';
 import { getAllDiscounts } from '../../redux/actions/discounts';
+import { getAllBrands } from '../../redux/slices/brandSlice';
+import { getAllCategories } from '../../redux/slices/categorySlice';
 //
-import MainNavbar from './MainNavbar';
 import MainFooter from './MainFooter';
+import MainNavbar from './MainNavbar';
 
 // ----------------------------------------------------------------------
 
@@ -40,7 +39,7 @@ const MainStyle = styled('div')(({ theme }) => ({
 
 export default function MainLayout() {
   const dispatch = useDispatch();
-  const { user, googleOAuth } = useAuth();
+  const { user } = useAuth();
 
   const { pathname } = useLocation();
   const isCartPage = pathname.startsWith('/cart');
@@ -60,20 +59,6 @@ export default function MainLayout() {
     image: item.image,
     _id: item._id
   }));
-
-  useGoogleOneTapLogin({
-    disabled: !!user,
-    onSuccess: (user) => console.log('Google One Tap Login success', user),
-    onFailure: (error) => console.error('Google One Tap Login failure', error),
-    googleAccountConfigs: {
-      client_id: '235569401328-lib09fjkc10r16r6mbscljl4ulb5049q.apps.googleusercontent.com',
-      callback: async (data) => {
-        console.log('Google One Tap Login callback', data);
-        const { credential } = data;
-        await googleOAuth(credential);
-      }
-    }
-  });
 
   return (
     <RootStyle>

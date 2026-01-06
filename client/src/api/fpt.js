@@ -10,11 +10,13 @@ const userBehaviorId = import.meta.env.REACT_APP_FPT_USER_BEHAVIOR_ID || '';
 const userBehaviorKey = import.meta.env.REACT_APP_FPT_USER_BEHAVIOR_KEY || '';
 
 export const getRelatedItems = (input) => {
+  if (import.meta.env.DEV || !relatedItemKey) return Promise.resolve({ data: { result: [] } });
   const params = { input, key: relatedItemKey };
   return fptApiIns.get(relatedItemId, { params });
 };
 
 export const getUserBasedRecommendation = (input) => {
+  if (import.meta.env.DEV || !userBehaviorKey) return Promise.resolve({ data: { result: [] } });
   if (!input) {
     input = localStorage.getItem('uid');
   }

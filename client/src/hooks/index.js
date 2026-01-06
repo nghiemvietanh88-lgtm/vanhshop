@@ -1,5 +1,5 @@
 export { default as useAuth } from './useAuth';
-export { default as useFirebaseStorage } from './useFirebaseStorage';
+
 export { default as useInterval } from './useInterval';
 export { default as useIsMountedRef } from './useIsMountedRef';
 export { default as useLocales } from './useLocales';
