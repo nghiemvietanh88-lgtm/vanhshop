@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Card,
   Container,
   FormControlLabel,
@@ -17,7 +18,7 @@ import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ImageBrokenIcon } from '../../../assets';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../../../components/dashboard/users';
+import { UserFormDialog, UserListHead, UserListToolbar, UserMoreMenu } from '../../../components/dashboard/users';
 import HeaderBreadcrumbs from '../../../components/HeaderBreadcrumbs';
 import Label from '../../../components/Label';
 import LoadingScreen from '../../../components/LoadingScreen';
@@ -25,7 +26,7 @@ import Page from '../../../components/Page';
 import Scrollbar from '../../../components/Scrollbar';
 import * as Helper from '../../../helper/listHelper';
 import useLocales from '../../../hooks/useLocales';
-import { getAllUsersAll, toggleLockUser } from '../../../redux/actions/users';
+import { createUser, deleteUser, getAllUsersAll, toggleLockUser, updateUser } from '../../../redux/actions/users';
 import { PATH_DASHBOARD } from '../../../routes/paths';
 import DetailUser from './DetailUser';
 // ----------------------------------------------------------------------
@@ -42,6 +43,8 @@ export default function PageCustomerList() {
   const theme = useTheme();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
+  // Get current user from localStorage
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
   const { list: usersList, isLoading } = useSelector((state) => state.user);
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('createdAt');
@@ -51,9 +54,59 @@ export default function PageCustomerList() {
   const [currentId, setCurrentId] = useState(null);
   const [openForm, setOpenForm] = useState(false);
 
+  // State for user form dialog
+  const [openUserForm, setOpenUserForm] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
+  const [isEdit, setIsEdit] = useState(false);
+
   useEffect(() => {
     dispatch(getAllUsersAll());
   }, [dispatch]);
+
+  // CRUD handlers
+  const handleAddUser = () => {
+    setEditingUser(null);
+    setIsEdit(false);
+    setOpenUserForm(true);
+  };
+
+  const handleEditUser = (user) => {
+    setEditingUser(user);
+    setIsEdit(true);
+    setOpenUserForm(true);
+  };
+
+  const handleDeleteUser = async (id) => {
+    // Self-protection: cannot delete yourself
+    if (id === currentUser?._id) {
+      enqueueSnackbar('Bạn không thể xóa tài khoản của chính mình!', { variant: 'error' });
+      return;
+    }
+    if (window.confirm('Bạn có chắc chắn muốn xóa người dùng này?')) {
+      try {
+        await dispatch(deleteUser(id));
+        enqueueSnackbar('Xóa người dùng thành công!', { variant: 'success' });
+        dispatch(getAllUsersAll());
+      } catch (error) {
+        enqueueSnackbar('Có lỗi xảy ra khi xóa người dùng!', { variant: 'error' });
+      }
+    }
+  };
+
+  const handleFormSubmit = async (data) => {
+    try {
+      if (isEdit && editingUser) {
+        await dispatch(updateUser(editingUser._id, data));
+        enqueueSnackbar('Cập nhật người dùng thành công!', { variant: 'success' });
+      } else {
+        await dispatch(createUser(data));
+        enqueueSnackbar('Thêm người dùng thành công!', { variant: 'success' });
+      }
+      dispatch(getAllUsersAll());
+    } catch (error) {
+      enqueueSnackbar('Có lỗi xảy ra!', { variant: 'error' });
+    }
+  };
 
   const tableHeads = [
     {
@@ -124,6 +177,11 @@ export default function PageCustomerList() {
   };
 
   const handleLockAccount = async (id) => {
+    // Self-protection: cannot lock yourself
+    if (id === currentUser?._id) {
+      enqueueSnackbar('Bạn không thể khóa tài khoản của chính mình!', { variant: 'error' });
+      return;
+    }
     try {
       const result = await dispatch(toggleLockUser(id));
       const isLocked = result?.data?.status === 'inactive';
@@ -150,6 +208,16 @@ export default function PageCustomerList() {
         {openForm && (
           <DetailUser open={openForm} setOpen={setOpenForm} currentId={currentId} setCurrentId={setCurrentId} />
         )}
+
+        {/* User Form Dialog */}
+        <UserFormDialog
+          open={openUserForm}
+          onClose={() => setOpenUserForm(false)}
+          onSubmit={handleFormSubmit}
+          user={editingUser}
+          isEdit={isEdit}
+        />
+
         <HeaderBreadcrumbs
           heading={t('dashboard.users.heading')}
           links={[
@@ -160,6 +228,11 @@ export default function PageCustomerList() {
             },
             { name: t('dashboard.users.heading') }
           ]}
+          action={
+            <Button variant="contained" onClick={handleAddUser}>
+              + Thêm người dùng
+            </Button>
+          }
         />
 
         <Card>
@@ -245,6 +318,8 @@ export default function PageCustomerList() {
                             <UserMoreMenu
                               onLockAccount={() => handleLockAccount(_id)}
                               onDetail={() => handleDetailUser(_id)}
+                              onEdit={() => handleEditUser(row)}
+                              onDelete={() => handleDeleteUser(_id)}
                               isLocked={status !== 'active'}
                             />
                           </TableCell>

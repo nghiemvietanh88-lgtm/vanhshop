@@ -138,6 +138,8 @@ function AuthProvider({ children }) {
       setSession(token, refreshToken);
 
       dispatch({ type: 'LOGIN', payload: { user } });
+
+      localStorage.setItem('currentUser', JSON.stringify(user));
     } catch (e) {
       handleError(e, 'googleOAuth');
     }
@@ -156,7 +158,8 @@ function AuthProvider({ children }) {
 
       dispatch({ type: 'LOGIN', payload: { user } });
 
-      // Redirect admin/staff to dashboard after successful login
+      localStorage.setItem('currentUser', JSON.stringify(user));
+
       if (user?.role === 'admin' || user?.role === 'staff') {
         window.location.href = '/dashboard/statics';
       }
@@ -168,6 +171,7 @@ function AuthProvider({ children }) {
   const logoutAction = async () => {
     localStorage.removeItem('orderLocalStorage');
     localStorage.removeItem('cart');
+    localStorage.removeItem('currentUser');
     setSession(null);
     dispatch({ type: 'LOGOUT' });
     dispatch(setAuthenticated(false));

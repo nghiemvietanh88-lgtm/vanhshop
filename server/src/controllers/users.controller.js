@@ -29,6 +29,25 @@ export const createUser = () => async (req, res, next) => {
   } catch (err) { next(err); }
 }
 
+export const updateUserById = async (req, res, next) => {
+  try {
+    const { identity } = req.params;
+    const updateData = { ...req.body };
+    delete updateData.email;
+
+    const updatedUser = await userService.updateById(identity, updateData);
+    if (updatedUser) {
+      ResponseUtils.status200(
+        res,
+        `Update user successfully!`,
+        formatAllUser(updatedUser, req)
+      );
+    } else {
+      ResponseUtils.status404(res, `User not found!`);
+    }
+  } catch (err) { next(err); }
+}
+
 export const getUsers = (role) => async (req, res, next) => {
   try {
     let users = await userService.getListByRole(role);
@@ -113,6 +132,19 @@ export const toggleLockAccount = async (req, res, next) => {
         `Account ${updatedUser.status === 'inactive' ? 'locked' : 'unlocked'} successfully!`,
         formatAllUser(updatedUser, req)
       );
+    } else {
+      ResponseUtils.status404(res, `User not found!`);
+    }
+  } catch (err) { next(err); }
+}
+
+// Delete user
+export const deleteUser = async (req, res, next) => {
+  try {
+    const { identity } = req.params;
+    const deleted = await userService.remove(identity);
+    if (deleted) {
+      ResponseUtils.status200(res, `User deleted successfully!`);
     } else {
       ResponseUtils.status404(res, `User not found!`);
     }

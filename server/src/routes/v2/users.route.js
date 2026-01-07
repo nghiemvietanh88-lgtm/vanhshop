@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { allowImageMineTypes, USER } from '../../constants.js';
-import { createUser, getUsers, toggleLockAccount } from '../../controllers/users.controller.js';
+import { createUser, deleteUser, getUsers, toggleLockAccount, updateUserById } from '../../controllers/users.controller.js';
 import { isAdmin, isAdminOrStaff } from '../../middlewares/jwt-auth.js';
 import UploadUtils from '../../utils/UploadUtils.js';
 
@@ -43,10 +43,11 @@ router.route('/customer/:identity')
     isAdminOrStaff,
     upload.single('avatar'),
     UploadUtils.handleFilePath('avatar'),
-    createUser(roleCustomer)
+    updateUserById
   )
   .delete(
-    isAdminOrStaff
+    isAdminOrStaff,
+    deleteUser
   );
 
 // Toggle lock/unlock customer account
@@ -55,10 +56,9 @@ router.route('/customer/:identity/toggle-lock')
 
 // Get ALL users (admin, staff, customer)
 router.route('/all')
-  .get(isAdminOrStaff, async (req, res, next) => {
+  .get(isAdminOrStaff, async (_req, res, next) => {
     try {
       const userService = (await import('../../services/user.service.js')).default;
-      const FormatUtils = (await import('../../utils/FormatUtils.js')).default;
       const ResponseUtils = (await import('../../utils/ResponseUtils.js')).default;
 
       let users = await userService.getAll();
