@@ -1,7 +1,7 @@
-import ResponseUtils from '../utils/ResponseUtils.js';
 import imagesService from '../services/images.service.js';
 import userService from '../services/user.service.js';
 import FormatUtils from '../utils/FormatUtils.js';
+import ResponseUtils from '../utils/ResponseUtils.js';
 
 const formatOneUser = (user, req) => {
   user = FormatUtils.imageUrl(user, 'avatar', req);
@@ -18,7 +18,7 @@ const formatAllUser = (user, req) => {
   return user;
 }
 
-export const createUser = (role) => async (req, res, next) => {
+export const createUser = () => async (req, res, next) => {
   try {
     const newUser = await userService.create(req.body);
     ResponseUtils.status201(
@@ -99,5 +99,22 @@ export const addressUserDelete = async (req, res, next) => {
     const { identity, identityAddress } = req.params;
     await userService.addressDelete(identity, identityAddress);
     ResponseUtils.status200(res, `Deleted address successfully!`);
+  } catch (err) { next(err); }
+}
+
+// Toggle lock/unlock account
+export const toggleLockAccount = async (req, res, next) => {
+  try {
+    const { identity } = req.params;
+    const updatedUser = await userService.toggleLockAccount(identity);
+    if (updatedUser) {
+      ResponseUtils.status200(
+        res,
+        `Account ${updatedUser.status === 'inactive' ? 'locked' : 'unlocked'} successfully!`,
+        formatAllUser(updatedUser, req)
+      );
+    } else {
+      ResponseUtils.status404(res, `User not found!`);
+    }
   } catch (err) { next(err); }
 }

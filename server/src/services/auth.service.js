@@ -1,9 +1,9 @@
 import { randomBytes } from 'crypto';
 import RefreshToken from '../models/refresh-token.model.js';
-import userService from './user.service.js';
 import firebaseService from './firebase.service.js';
-import * as otpService from './otp.service.js';
 import * as mailerService from './mailer.service.js';
+import * as otpService from './otp.service.js';
+import userService from './user.service.js';
 
 import responseDef from '../responseCode.js';
 import ApiErrorUtils from '../utils/ApiErrorUtils.js';
@@ -37,6 +37,11 @@ async function googleAuthenticate(payload, ipAddress) {
     throw ApiErrorUtils.simple2(responseDef.AUTH.USER_NOT_FOUND);
   }
 
+  // Check if user account is locked (inactive)
+  if (user.status === 'inactive') {
+    throw ApiErrorUtils.simple('Tài khoản của bạn đã bị khóa. Vui lòng liên hệ admin để được hỗ trợ.', 403);
+  }
+
   // authentication successful so generate jwt and refresh tokens
   const jwtToken = JwtUtils.generateToken({ _id: user._id });
   const refreshToken = generateRefreshToken(user._id, ipAddress);
@@ -60,6 +65,11 @@ async function authenticate(username, password, ipAddress) {
   const isMatch = CipherUtils.comparePassword(password, user.password);
   if (!isMatch) {
     throw ApiErrorUtils.simple2(responseDef.AUTH.INVALID_PASSWORD);
+  }
+
+  // Check if user account is locked (inactive)
+  if (user.status === 'inactive') {
+    throw ApiErrorUtils.simple('Tài khoản của bạn đã bị khóa. Vui lòng liên hệ admin để được hỗ trợ.', 403);
   }
 
   // authentication successful so generate jwt and refresh tokens

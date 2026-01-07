@@ -82,10 +82,12 @@ export const deleteStaff = (identity) => API.delete(`/users/staff/${identity}`);
 
 // ----------------------------User (customer) -----------------------
 export const getAllCustomers = () => API.get('/users/customer');
+export const getAllUsersAll = () => API.get('/users/all'); // Get all users (admin, staff, customer)
 export const getOneUser = (identity) => API.get(`/users/customer/${identity}`);
 export const createUser = (newUser) => API.post('/users/customer', newUser);
 export const updateUser = (identity, updatedUser) => API.patch(`/users/customer/${identity}`, updatedUser);
 export const deleteUser = (identity) => API.delete(`/users/customer/${identity}`);
+export const toggleLockUser = (identity) => API.patch(`/users/customer/${identity}/toggle-lock`);
 
 // ----------------------------Category--------------------------------
 export const getAllCategory = (fields) => (fields ? API.get(`/categories?fields=${fields}`) : API.get('/categories'));

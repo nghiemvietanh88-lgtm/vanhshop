@@ -1,21 +1,23 @@
-import PropTypes from 'prop-types';
-import { Icon } from '@iconify/react';
-import { useRef, useState } from 'react';
 import lockFill from '@iconify/icons-eva/lock-fill';
-import detailUser from '@iconify/icons-eva/person-delete-fill';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
+import detailUser from '@iconify/icons-eva/person-delete-fill';
+import unlockFill from '@iconify/icons-eva/unlock-fill';
+import { Icon } from '@iconify/react';
+import PropTypes from 'prop-types';
+import { useRef, useState } from 'react';
 // material
-import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@material-ui/core';
+import { IconButton, ListItemIcon, ListItemText, Menu, MenuItem } from '@material-ui/core';
 import useLocales from '../../../hooks/useLocales';
 
 // ----------------------------------------------------------------------
 
 UserMoreMenu.propTypes = {
   onDetail: PropTypes.func,
-  onLockAccount: PropTypes.func
+  onLockAccount: PropTypes.func,
+  isLocked: PropTypes.bool
 };
 
-export default function UserMoreMenu({ onDetail, onLockAccount }) {
+export default function UserMoreMenu({ onDetail, onLockAccount, isLocked = false }) {
   const { t } = useLocales();
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -38,9 +40,12 @@ export default function UserMoreMenu({ onDetail, onLockAccount }) {
         <div onMouseLeave={() => setIsOpen(false)}>
           <MenuItem onClick={onLockAccount} sx={{ color: 'text.secondary' }}>
             <ListItemIcon>
-              <Icon icon={lockFill} width={24} height={24} />
+              <Icon icon={isLocked ? unlockFill : lockFill} width={24} height={24} />
             </ListItemIcon>
-            <ListItemText primary={t('dashboard.users.lock-account')} primaryTypographyProps={{ variant: 'body2' }} />
+            <ListItemText
+              primary={isLocked ? 'Mở khóa' : t('dashboard.users.lock-account')}
+              primaryTypographyProps={{ variant: 'body2' }}
+            />
           </MenuItem>
           <MenuItem onClick={onDetail} sx={{ color: 'text.secondary' }}>
             <ListItemIcon>

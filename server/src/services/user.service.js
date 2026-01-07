@@ -14,7 +14,8 @@ export default {
   create,
   updateBasicInfo,
   updateById,
-  remove
+  remove,
+  toggleLockAccount
 };
 
 const SELECTED_FIELDS =
@@ -181,4 +182,27 @@ async function remove(identity) {
     : { slug: identity };
   const deletedUser = await User.findOneAndDelete(filter);
   return !!deletedUser;
+}
+
+/**
+ * Toggle lock/unlock user account
+ * @param {*} userId - user id
+ * @returns updated user
+ */
+async function toggleLockAccount(userId) {
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new Error(`User not found!`);
+  }
+
+  // Toggle status between active and inactive
+  const newStatus = user.status === constants.USER.STATUS.ACTIVE
+    ? constants.USER.STATUS.INACTIVE
+    : constants.USER.STATUS.ACTIVE;
+
+  return User.findByIdAndUpdate(
+    userId,
+    { status: newStatus },
+    { new: true, select: SELECTED_FIELDS }
+  );
 }

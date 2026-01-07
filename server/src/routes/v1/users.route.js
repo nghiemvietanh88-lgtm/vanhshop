@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { allowImageMineTypes, USER } from '../../constants.js';
-import { createUser, getUsers } from '../../controllers/users.controller.js';
+import { createUser, getUsers, toggleLockAccount } from '../../controllers/users.controller.js';
 import { isAdmin, isAdminOrStaff } from '../../middlewares/jwt-auth.js';
 import UploadUtils from '../../utils/UploadUtils.js';
 
@@ -48,5 +48,9 @@ router.route('/customer/:identity')
   .delete(
     isAdminOrStaff
   );
+
+// Toggle lock/unlock customer account
+router.route('/customer/:identity/toggle-lock')
+  .patch(isAdminOrStaff, toggleLockAccount);
 
 export default router;

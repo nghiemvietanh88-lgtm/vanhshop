@@ -12,20 +12,21 @@ import {
   TableRow,
   Typography
 } from '@material-ui/core';
-import { useEffect, useState } from 'react';
 import { experimentalStyled as styled, useTheme } from '@material-ui/core/styles';
+import { useSnackbar } from 'notistack';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Page from '../../../components/Page';
-import { PATH_DASHBOARD } from '../../../routes/paths';
-import HeaderBreadcrumbs from '../../../components/HeaderBreadcrumbs';
-import useLocales from '../../../hooks/useLocales';
-import LoadingScreen from '../../../components/LoadingScreen';
-import Label from '../../../components/Label';
-import Scrollbar from '../../../components/Scrollbar';
-import * as Helper from '../../../helper/listHelper';
 import { ImageBrokenIcon } from '../../../assets';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../../../components/dashboard/users';
-import { getAllUsers } from '../../../redux/actions/users';
+import HeaderBreadcrumbs from '../../../components/HeaderBreadcrumbs';
+import Label from '../../../components/Label';
+import LoadingScreen from '../../../components/LoadingScreen';
+import Page from '../../../components/Page';
+import Scrollbar from '../../../components/Scrollbar';
+import * as Helper from '../../../helper/listHelper';
+import useLocales from '../../../hooks/useLocales';
+import { getAllUsersAll, toggleLockUser } from '../../../redux/actions/users';
+import { PATH_DASHBOARD } from '../../../routes/paths';
 import DetailUser from './DetailUser';
 // ----------------------------------------------------------------------
 const ThumbImgStyle = styled('img')(({ theme }) => ({
@@ -40,6 +41,7 @@ export default function PageCustomerList() {
   const { t } = useLocales();
   const theme = useTheme();
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
   const { list: usersList, isLoading } = useSelector((state) => state.user);
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('createdAt');
@@ -50,7 +52,7 @@ export default function PageCustomerList() {
   const [openForm, setOpenForm] = useState(false);
 
   useEffect(() => {
-    dispatch(getAllUsers());
+    dispatch(getAllUsersAll());
   }, [dispatch]);
 
   const tableHeads = [
@@ -79,8 +81,14 @@ export default function PageCustomerList() {
       label: t('dashboard.users.phone')
     },
     {
-      id: 'isHide',
-      numeric: true,
+      id: 'role',
+      numeric: false,
+      disablePadding: false,
+      label: 'Role'
+    },
+    {
+      id: 'status',
+      numeric: false,
       disablePadding: false,
       label: t('dashboard.users.status')
     },
@@ -96,13 +104,13 @@ export default function PageCustomerList() {
     setOpenForm(true);
   };
 
-  const handleRequestSort = (event, property) => {
+  const handleRequestSort = (_event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (_event, newPage) => {
     setPage(newPage);
   };
 
@@ -115,7 +123,19 @@ export default function PageCustomerList() {
     setDense(event.target.checked);
   };
 
-  const handleLockAccount = () => {};
+  const handleLockAccount = async (id) => {
+    try {
+      const result = await dispatch(toggleLockUser(id));
+      const isLocked = result?.data?.status === 'inactive';
+      enqueueSnackbar(isLocked ? 'Đã khóa tài khoản thành công!' : 'Đã mở khóa tài khoản thành công!', {
+        variant: 'success'
+      });
+      // Refresh user list to update UI
+      dispatch(getAllUsersAll());
+    } catch (error) {
+      enqueueSnackbar('Có lỗi xảy ra, vui lòng thử lại!', { variant: 'error' });
+    }
+  };
 
   // Avoid a layout jump when reaching the last page with empty brandsList.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - usersList.length) : 0;
@@ -158,8 +178,23 @@ export default function PageCustomerList() {
                   {Helper.stableSort(usersList, Helper.getComparator(order, orderBy))
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, index) => {
-                      const { _id, fullName, gender, image, email, phone, isHide } = row;
+                      const { _id, fullName, gender, image, email, phone, status, role } = row;
                       const labelId = `enhanced-table-checkbox-${index}`;
+
+                      // Map role to display name and color
+                      const getRoleDisplay = (role) => {
+                        switch (role) {
+                          case 'admin':
+                            return { label: 'Admin', color: 'error' };
+                          case 'staff':
+                            return { label: 'Staff', color: 'warning' };
+                          case 'customer':
+                            return { label: 'Customer', color: 'info' };
+                          default:
+                            return { label: role, color: 'default' };
+                        }
+                      };
+                      const roleDisplay = getRoleDisplay(role);
 
                       return (
                         <TableRow hover tabIndex={-1} key={_id}>
@@ -193,15 +228,24 @@ export default function PageCustomerList() {
                           <TableCell align="left">
                             <Label
                               variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-                              color={isHide ? 'default' : 'success'}
+                              color={roleDisplay.color}
                             >
-                              {t(`dashboard.brands.${isHide ? 'hidden' : 'visible'}`)}
+                              {roleDisplay.label}
+                            </Label>
+                          </TableCell>
+                          <TableCell align="left">
+                            <Label
+                              variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+                              color={status === 'active' ? 'success' : 'error'}
+                            >
+                              {status === 'active' ? 'Hoạt động' : 'Đã khóa'}
                             </Label>
                           </TableCell>
                           <TableCell align="right" onClick={(event) => event.stopPropagation()}>
                             <UserMoreMenu
                               onLockAccount={() => handleLockAccount(_id)}
                               onDetail={() => handleDetailUser(_id)}
+                              isLocked={status !== 'active'}
                             />
                           </TableCell>
                         </TableRow>
