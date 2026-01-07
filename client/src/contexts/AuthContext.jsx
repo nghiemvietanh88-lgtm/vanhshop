@@ -155,6 +155,11 @@ function AuthProvider({ children }) {
       setSession(token, refreshToken);
 
       dispatch({ type: 'LOGIN', payload: { user } });
+
+      // Redirect admin/staff to dashboard after successful login
+      if (user?.role === 'admin' || user?.role === 'staff') {
+        window.location.href = '/dashboard/statics';
+      }
     } catch (e) {
       handleError(e, 'login');
     }
