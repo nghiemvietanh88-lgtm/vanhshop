@@ -1,23 +1,23 @@
 // icons
-import { Icon } from '@iconify/react';
 import arrowIosBackFill from '@iconify/icons-eva/arrow-ios-back-fill';
+import { Icon } from '@iconify/react';
 // form validation
+import { Form, FormikProvider, useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useFormik, Form, FormikProvider } from 'formik';
 // material
-import { Grid, Button } from '@material-ui/core';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Typography } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
 // hooks
-import { useLayoutEffect } from 'react';
 import { useSnackbar } from 'notistack';
-import { useSelector, useDispatch } from 'react-redux';
+import { useLayoutEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocales } from '../../hooks';
 // components
-import CheckoutSummary from './CheckoutSummary';
 import CheckoutBillingInfo from './CheckoutBillingInfo';
 import CheckoutPaymentMethods from './CheckoutPaymentMethods';
+import CheckoutSummary from './CheckoutSummary';
 
-import { createOrder, backStepOrder } from '../../redux/slices/orderSlice';
+import { backStepOrder, createOrder } from '../../redux/slices/orderSlice';
 
 import * as typeUtils from '../../utils/typeUtils';
 
@@ -28,6 +28,14 @@ export default function CheckoutPayment() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const { orderInfo, isLoading: isCreatingOrder, orderCreated, error } = useSelector((state) => state.order);
+
+  // State for thank you dialog
+  const [openThankYouDialog, setOpenThankYouDialog] = useState(false);
+
+  const handleCloseThankYouDialog = () => {
+    setOpenThankYouDialog(false);
+    window.location.href = '/account?tab=order';
+  };
 
   useLayoutEffect(() => {
     if (error) {
@@ -42,12 +50,15 @@ export default function CheckoutPayment() {
         // if (isAuthenticated) {
         //   dispatch(cleanCart());
         // }
-        let redirect = `/order/${orderCreated._id}`;
-        if (orderCreated.paymentUrl) {
-          redirect = orderCreated.paymentUrl;
-        }
-        window.open(redirect, '_self');
         localStorage.removeItem('orderLocalStorage');
+
+        // Nếu có URL thanh toán online (VNPay, etc.), redirect tới đó
+        // Ngược lại, hiển thị dialog cảm ơn
+        if (orderCreated.paymentUrl) {
+          window.open(orderCreated.paymentUrl, '_self');
+        } else {
+          setOpenThankYouDialog(true);
+        }
       } else {
         enqueueSnackbar('Hệ thống bận, vui lòng thử lại !', { variant: 'error' });
       }
@@ -185,6 +196,54 @@ export default function CheckoutPayment() {
           </Grid>
         </Grid>
       </Form>
+
+      {/* Thank You Dialog */}
+      <Dialog
+        open={openThankYouDialog}
+        onClose={handleCloseThankYouDialog}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: 2,
+            textAlign: 'center',
+            py: 3
+          }
+        }}
+      >
+        <DialogTitle sx={{ pb: 1 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+            <Icon icon="pepicons-print:checkmark-outlined" width="20" height="20" style={{ color: '#0cc512' }} />
+          </Box>
+          <Typography variant="h4" component="div" sx={{ color: 'success.main' }}>
+            Đặt hàng thành công!
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          <Typography variant="body1" sx={{ color: 'text.secondary', mb: 1 }}>
+            Cảm ơn bạn đã mua hàng tại cửa hàng của chúng tôi.
+          </Typography>
+          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            Đơn hàng của bạn đang được xử lý. Bạn có thể theo dõi trạng thái đơn hàng trong mục "Đơn hàng của tôi".
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ justifyContent: 'center', px: 3, pb: 2 }}>
+          <Button
+            variant="contained"
+            size="large"
+            onClick={handleCloseThankYouDialog}
+            sx={{
+              minWidth: 200,
+              bgcolor: 'success.main',
+              '&:hover': {
+                bgcolor: 'success.dark'
+              }
+            }}
+          >
+            Xem đơn hàng
+          </Button>
+        </DialogActions>
+      </Dialog>
     </FormikProvider>
   );
 }
