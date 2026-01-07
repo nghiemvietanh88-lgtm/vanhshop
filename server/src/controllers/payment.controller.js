@@ -1,9 +1,9 @@
 
 import mongoose from 'mongoose';
-import vnpayService from '../services/vnpay.service.js';
+import constants from '../constants.js';
 import Order from '../models/order.model.js';
 import Payment from '../models/payment.model.js';
-import constants from '../constants.js';
+import vnpayService from '../services/vnpay.service.js';
 
 
 export const getVnpayResult = async (req, res, next) => {
@@ -52,7 +52,7 @@ export const getVnpayResult = async (req, res, next) => {
     res.send(`
       <script>
         alert('${message}');
-        window.open('${result.data.clientUrl}/order/${result.data.orderId}', '_self', '')
+        window.open('${result.data.clientUrl}/account?tab=order', '_self', '')
       </script>
     `);
   } catch (err) { next(err); }
