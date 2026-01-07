@@ -18,7 +18,13 @@ import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ImageBrokenIcon } from '../../../assets';
-import { UserFormDialog, UserListHead, UserListToolbar, UserMoreMenu } from '../../../components/dashboard/users';
+import {
+  ChangePasswordDialog,
+  UserFormDialog,
+  UserListHead,
+  UserListToolbar,
+  UserMoreMenu
+} from '../../../components/dashboard/users';
 import HeaderBreadcrumbs from '../../../components/HeaderBreadcrumbs';
 import Label from '../../../components/Label';
 import LoadingScreen from '../../../components/LoadingScreen';
@@ -56,6 +62,7 @@ export default function PageCustomerList() {
 
   // State for user form dialog
   const [openUserForm, setOpenUserForm] = useState(false);
+  const [openChangePasswordForm, setOpenChangePasswordForm] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
 
@@ -152,6 +159,11 @@ export default function PageCustomerList() {
     }
   ];
 
+  const handleChangePasswordUser = (user) => {
+    setEditingUser(user);
+    setOpenChangePasswordForm(true);
+  };
+
   const handleDetailUser = (id) => {
     setCurrentId(id);
     setOpenForm(true);
@@ -216,6 +228,14 @@ export default function PageCustomerList() {
           onSubmit={handleFormSubmit}
           user={editingUser}
           isEdit={isEdit}
+        />
+
+        {/* Change Password Dialog */}
+        <ChangePasswordDialog
+          open={openChangePasswordForm}
+          onClose={() => setOpenChangePasswordForm(false)}
+          onSubmit={handleFormSubmit}
+          user={editingUser}
         />
 
         <HeaderBreadcrumbs
@@ -319,8 +339,11 @@ export default function PageCustomerList() {
                               onLockAccount={() => handleLockAccount(_id)}
                               onDetail={() => handleDetailUser(_id)}
                               onEdit={() => handleEditUser(row)}
+                              onChangePassword={() => handleChangePasswordUser(row)}
                               onDelete={() => handleDeleteUser(_id)}
                               isLocked={status !== 'active'}
+                              userId={_id}
+                              currentUserId={currentUser?._id}
                             />
                           </TableCell>
                         </TableRow>

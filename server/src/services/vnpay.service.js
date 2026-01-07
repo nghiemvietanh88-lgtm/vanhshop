@@ -1,6 +1,6 @@
 import crypto from 'crypto';
-import queryString from 'query-string';
 import dateFormat from 'dateformat';
+import queryString from 'query-string';
 import configs from '../configs.js';
 
 const tmnCode = configs.vnPay.tmnCode;
@@ -16,8 +16,8 @@ async function createPaymentUrl(ipAddress, apiUrl, clientUrl, orderId, orderPayA
   const returnUrl = `${apiUrl}/api/v1/payment/vnpay/callback`;
 
   const date = new Date();
-  const createDate = dateFormat(date, 'yyyymmddHHmmss');
-  const txnRef = dateFormat(date, 'HHmmss');
+  const createDate = dateFormat(date, 'yyyymmddHHMMss');
+  const txnRef = dateFormat(date, 'HHMMss');
 
   let locale = 'vn';
   if (language && ['vn', 'en'].indexOf(language) >= 0) {
@@ -39,6 +39,12 @@ async function createPaymentUrl(ipAddress, apiUrl, clientUrl, orderId, orderPayA
   vnp_Params['vnp_ReturnUrl'] = returnUrl;
   vnp_Params['vnp_IpAddr'] = ipAddress;
   vnp_Params['vnp_CreateDate'] = createDate;
+
+  // Add expire date (15 minutes from now)
+  const expireDate = new Date(date.getTime() + 15 * 60 * 1000);
+  const vnpExpireDate = dateFormat(expireDate, 'yyyymmddHHMMss');
+  vnp_Params['vnp_ExpireDate'] = vnpExpireDate;
+
   if (bankCode !== null && bankCode !== '') {
     vnp_Params['vnp_BankCode'] = bankCode;
   }

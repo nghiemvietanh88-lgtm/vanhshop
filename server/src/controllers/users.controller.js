@@ -1,5 +1,6 @@
 import imagesService from '../services/images.service.js';
 import userService from '../services/user.service.js';
+import CipherUtils from '../utils/CipherUtils.js';
 import FormatUtils from '../utils/FormatUtils.js';
 import ResponseUtils from '../utils/ResponseUtils.js';
 
@@ -34,6 +35,15 @@ export const updateUserById = async (req, res, next) => {
     const { identity } = req.params;
     const updateData = { ...req.body };
     delete updateData.email;
+
+    // Check if password exists and is not empty
+    if (updateData.password && updateData.password.trim() !== '') {
+      updateData.password = CipherUtils.hashPassword(updateData.password);
+      updateData.emptyPassword = false; // Ensure it's marked as having a password
+    } else {
+      // If password is empty or not provided, remove it to prevent overwriting
+      delete updateData.password;
+    }
 
     const updatedUser = await userService.updateById(identity, updateData);
     if (updatedUser) {

@@ -12,8 +12,8 @@ import logger from './middlewares/logger.js';
 import routesV1 from './routes/v1/index.js';
 import routesV2 from './routes/v2/index.js';
 
-import LogUtils from './utils/LogUtils.js';
 import configs from './configs.js';
+import LogUtils from './utils/LogUtils.js';
 
 //------------------------------------------------------------------------------
 
@@ -52,6 +52,9 @@ app.use((req, _, next) => {
   }
 
   req.ipv4 = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  if (req.ipv4 === '::1' || req.ipv4 === '::ffff:127.0.0.1') {
+    req.ipv4 = '127.0.0.1';
+  }
   next();
 });
 app.use(logger);

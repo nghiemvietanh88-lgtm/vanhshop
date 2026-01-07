@@ -191,28 +191,28 @@ export default function UserFormDialog({ open, onClose, onSubmit, user, isEdit =
                 )}
               />
             </Grid>
-            {!isEdit && (
-              <Grid item xs={12}>
-                <Controller
-                  name="password"
-                  control={control}
-                  rules={{
-                    required: !isEdit ? 'Vui lòng nhập mật khẩu' : false,
-                    minLength: { value: 6, message: 'Mật khẩu tối thiểu 6 ký tự' }
-                  }}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      fullWidth
-                      label="Mật khẩu"
-                      type="password"
-                      error={!!errors.password}
-                      helperText={errors.password?.message}
-                    />
-                  )}
-                />
-              </Grid>
-            )}
+            <Grid item xs={12}>
+              <Controller
+                name="password"
+                control={control}
+                rules={{
+                  required: !isEdit ? 'Vui lòng nhập mật khẩu' : false,
+                  minLength: { value: 6, message: 'Mật khẩu tối thiểu 6 ký tự' }
+                }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    fullWidth
+                    label={isEdit ? 'Mật khẩu mới (để trống nếu không đổi)' : 'Mật khẩu'}
+                    type="password"
+                    error={!!errors.password}
+                    helperText={errors.password?.message}
+                    placeholder={isEdit ? '••••••' : ''}
+                    InputLabelProps={{ shrink: true }}
+                  />
+                )}
+              />
+            </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>

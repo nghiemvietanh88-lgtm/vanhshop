@@ -1,4 +1,3 @@
-import editFill from '@iconify/icons-eva/edit-fill';
 import lockFill from '@iconify/icons-eva/lock-fill';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 import detailUser from '@iconify/icons-eva/person-delete-fill';
@@ -18,11 +17,24 @@ UserMoreMenu.propTypes = {
   onLockAccount: PropTypes.func,
   onEdit: PropTypes.func,
   onDelete: PropTypes.func,
-  isLocked: PropTypes.bool
+  isLocked: PropTypes.bool,
+  userId: PropTypes.string,
+  currentUserId: PropTypes.string,
+  onChangePassword: PropTypes.func
 };
 
-export default function UserMoreMenu({ onDetail, onLockAccount, onEdit, onDelete, isLocked = false }) {
-  const { t } = useLocales();
+export default function UserMoreMenu({
+  onDetail,
+  onLockAccount,
+  onEdit,
+  onChangePassword,
+  onDelete,
+  isLocked = false,
+  userId,
+  currentUserId
+}) {
+  const isSelf = userId === currentUserId;
+  useLocales();
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -52,7 +64,7 @@ export default function UserMoreMenu({ onDetail, onLockAccount, onEdit, onDelete
             <ListItemIcon>
               <Icon icon={detailUser} width={24} height={24} />
             </ListItemIcon>
-            <ListItemText primary={t('dashboard.users.detail')} primaryTypographyProps={{ variant: 'body2' }} />
+            <ListItemText primary="Chi tiết" primaryTypographyProps={{ variant: 'body2' }} />
           </MenuItem>
           <MenuItem
             onClick={() => {
@@ -62,38 +74,54 @@ export default function UserMoreMenu({ onDetail, onLockAccount, onEdit, onDelete
             sx={{ color: 'text.secondary' }}
           >
             <ListItemIcon>
-              <Icon icon={editFill} width={24} height={24} />
+              <Icon icon="tabler:edit" width="24" height="24" />
             </ListItemIcon>
-            <ListItemText primary="Sửa" primaryTypographyProps={{ variant: 'body2' }} />
+            <ListItemText primary="Sửa thông tin" primaryTypographyProps={{ variant: 'body2' }} />
           </MenuItem>
-          <Divider />
           <MenuItem
             onClick={() => {
               setIsOpen(false);
-              onLockAccount?.();
+              onChangePassword?.();
             }}
             sx={{ color: 'text.secondary' }}
           >
             <ListItemIcon>
-              <Icon icon={isLocked ? unlockFill : lockFill} width={24} height={24} />
+              <Icon icon={lockFill} width={24} height={24} />
             </ListItemIcon>
-            <ListItemText
-              primary={isLocked ? 'Mở khóa' : t('dashboard.users.lock-account')}
-              primaryTypographyProps={{ variant: 'body2' }}
-            />
+            <ListItemText primary="Đổi mật khẩu" primaryTypographyProps={{ variant: 'body2' }} />
           </MenuItem>
-          <MenuItem
-            onClick={() => {
-              setIsOpen(false);
-              onDelete?.();
-            }}
-            sx={{ color: 'error.main' }}
-          >
-            <ListItemIcon>
-              <Icon icon={trash2Fill} width={24} height={24} color="error" />
-            </ListItemIcon>
-            <ListItemText primary="Xóa" primaryTypographyProps={{ variant: 'body2' }} />
-          </MenuItem>
+          {!isSelf && (
+            <>
+              <Divider />
+              <MenuItem
+                onClick={() => {
+                  setIsOpen(false);
+                  onLockAccount?.();
+                }}
+                sx={{ color: 'text.secondary' }}
+              >
+                <ListItemIcon>
+                  <Icon icon={isLocked ? unlockFill : lockFill} width={24} height={24} />
+                </ListItemIcon>
+                <ListItemText
+                  primary={isLocked ? 'Mở khóa' : 'Khóa tài khoản'}
+                  primaryTypographyProps={{ variant: 'body2' }}
+                />
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setIsOpen(false);
+                  onDelete?.();
+                }}
+                sx={{ color: 'error.main' }}
+              >
+                <ListItemIcon>
+                  <Icon icon={trash2Fill} width={24} height={24} color="error" />
+                </ListItemIcon>
+                <ListItemText primary="Xóa" primaryTypographyProps={{ variant: 'body2' }} />
+              </MenuItem>
+            </>
+          )}
         </div>
       </Menu>
     </>
