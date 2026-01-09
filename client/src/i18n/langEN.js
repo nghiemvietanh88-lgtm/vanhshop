@@ -31,7 +31,7 @@ export default {
     information: 'Success or failure in business depends more on attitude in thinking than in ability to think.'
   },
   home: {
-    'page-title': 'Genuine cellphone and accessories | HK Mobile',
+    'page-title': 'Genuine cellphone and accessories | VanhShop',
     cart: 'Cart',
     'order-history': 'Order history',
     'product-desc': 'Product description',
@@ -41,7 +41,7 @@ export default {
     newest: 'Newest'
   },
   account: {
-    'page-title': 'Account | HK Mobile',
+    'page-title': 'Account | VanhShop',
     info: 'Info',
     order: 'Order',
     'address-book': 'Address book',
@@ -93,7 +93,7 @@ export default {
     'edit-title': 'Edit address'
   },
   cart: {
-    'page-title': 'Shopping cart | HK Mobile',
+    'page-title': 'Shopping cart | VanhShop',
     title: 'Cart',
     'title-detail': 'Cart details',
     item: 'product',
@@ -150,8 +150,8 @@ export default {
     'delivery-to-home-desc': 'Give us the address, the order will be delivered to your door!'
   },
   order: {
-    'page-title': 'Orders | HK Mobile',
-    'dashboard-page-title': 'Order Management | HK Mobile',
+    'page-title': 'Orders | VanhShop',
+    'dashboard-page-title': 'Order Management | VanhShop',
     heading: 'Order List',
     title: 'Order',
     'search-placeholder': 'Order search...',
@@ -194,9 +194,9 @@ export default {
   },
   auth: {
     'page-title': {
-      login: 'Log in | HK Mobile',
-      register: 'Register | HK Mobile',
-      'reset-password': 'Reset password | HK Mobile'
+      login: 'Log in | VanhShop',
+      register: 'Register | VanhShop',
+      'reset-password': 'Reset password | VanhShop'
     },
     salutation: 'Hi, Welcome back',
     register: 'Register',
@@ -227,11 +227,11 @@ export default {
     'role-staff': 'Staff',
     'role-customer': 'Customer',
 
-    'accept-terms': 'By registering, I agree to HK Mobile',
+    'accept-terms': 'By registering, I agree to VanhShop',
     tos: 'Terms of Service',
     'privacy-policy': 'Privacy Policy',
 
-    'register-salutation': 'Hi, Welcome to HK Mobile',
+    'register-salutation': 'Hi, Welcome to VanhShop',
     'register-title': 'Become a member',
     'register-subtitle': 'Accumulate points and receive many attractive offers',
     'register-success': 'Register success',
@@ -270,7 +270,7 @@ export default {
     'created-at': 'Created at',
     'updated-at': 'Updated at',
     categories: {
-      'page-title': 'Category management | HK Mobile',
+      'page-title': 'Category management | VanhShop',
       heading: 'Category List',
       title: 'Categories',
       'title-not-found': 'Category not found!',
@@ -295,7 +295,7 @@ export default {
       available: 'Number of SP'
     },
     brands: {
-      'page-title': 'Brand management | HK Mobile',
+      'page-title': 'Brand management | VanhShop',
       title: 'Brands',
       'title-not-found': 'Brand not found!',
       heading: 'Brand List',
@@ -321,7 +321,7 @@ export default {
       visible: 'Visible'
     },
     discounts: {
-      'page-title': 'Discount management | HK Mobile',
+      'page-title': 'Discount management | VanhShop',
       title: 'Discounts',
       'title-not-found': 'Discounts not found!',
       heading: 'Discount List',
@@ -357,7 +357,7 @@ export default {
       'date-end': 'Date end'
     },
     users: {
-      'page-title': 'User management | HK Mobile',
+      'page-title': 'User management | VanhShop',
       title: 'Users',
       heading: 'User List',
       'search-user-placeholder': 'Search user...',
@@ -411,7 +411,7 @@ export default {
     }
   },
   products: {
-    'page-title': 'Product management | HK Mobile',
+    'page-title': 'Product management | VanhShop',
     title: 'Products',
     list: 'Product list',
     'list-me': 'PRODUCTS FOR YOU',
@@ -425,10 +425,10 @@ export default {
     variant: 'Variant',
     create: 'Create product',
     save: 'Save Changes',
-    'add-title': 'Ecommerce: Add new product | HK Mobile',
+    'add-title': 'Ecommerce: Add new product | VanhShop',
     'add-success': 'Successfully added product.',
     edit: 'Edit product',
-    'edit-title': 'Ecommerce: Edit new product | HK Mobile',
+    'edit-title': 'Ecommerce: Edit new product | VanhShop',
     delete: 'Delete product',
     'confirm-delete': 'Do you want to remove the product - {{nameInfo}}?',
     name: 'Product name',
@@ -466,7 +466,7 @@ export default {
     error: 'An error occurred, please try again.',
     'label-toolbar': 'Show hidden products',
     'infor-1-title': '100% genuine',
-    'infor-1-content': 'All products at HK Mobile are genuine in Vietnam',
+    'infor-1-content': 'All products at VanhShop are genuine in Vietnam',
     'infor-2-title': '15 days return',
     'infor-2-content': 'Commit to return within 15 days if there is an error',
     'infor-3-title': 'Warranty genuine',

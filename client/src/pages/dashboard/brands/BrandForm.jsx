@@ -192,7 +192,7 @@ export default function BrandForm({ currentId, open, setOpen }) {
                   required
                   fullWidth
                   label={t('dashboard.brands.name')}
-                  {...getFieldProps('name')}
+                  value={brandData.name}
                   error={Boolean(touched.name && errors.name)}
                   helperText={touched.name && errors.name}
                   onChange={(e) => setBrandData({ ...brandData, name: e.target.value })}
@@ -204,7 +204,7 @@ export default function BrandForm({ currentId, open, setOpen }) {
                   label={t('dashboard.brands.desc')}
                   multiline
                   rows={3}
-                  {...getFieldProps('desc')}
+                  value={brandData.desc}
                   error={Boolean(touched.desc && errors.desc)}
                   helperText={touched.desc && errors.desc}
                   onChange={(e) => setBrandData({ ...brandData, desc: e.target.value })}
@@ -246,7 +246,7 @@ export default function BrandForm({ currentId, open, setOpen }) {
                 <TextField
                   fullWidth
                   label={t('dashboard.brands.headQuarters')}
-                  {...getFieldProps('headQuarters')}
+                  value={brandData.headQuarters}
                   error={Boolean(touched.headQuarters && errors.headQuarters)}
                   helperText={touched.headQuarters && errors.headQuarters}
                   onChange={(e) => setBrandData({ ...brandData, headQuarters: e.target.value })}

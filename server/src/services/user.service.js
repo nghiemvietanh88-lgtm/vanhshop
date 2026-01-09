@@ -129,6 +129,7 @@ async function isExistPhone(phone) {
 async function create(data) {
   const user = new User({
     _id: new mongoose.Types.ObjectId(),
+    status: constants.USER.STATUS.ACTIVE,
     ...data
   });
   return user.save();

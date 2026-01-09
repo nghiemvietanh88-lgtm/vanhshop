@@ -33,7 +33,7 @@ export default {
     information: 'Thành công hay thất bại trong kinh doanh là do thái độ trong suy nghĩ nhiều hơn là khả năng suy nghĩ.'
   },
   home: {
-    'page-title': 'Điện thoại di dộng chính hãng và phụ kiện | HK Mobile',
+    'page-title': 'Điện thoại di dộng chính hãng và phụ kiện | VanhShop',
     cart: 'Giỏ hàng',
     'order-history': 'Lịch sử mua hàng',
     'product-desc': 'Mô tả sản phẩm',
@@ -44,7 +44,7 @@ export default {
     search: 'Tìm kiếm'
   },
   account: {
-    'page-title': 'Account | HK Mobile',
+    'page-title': 'Account | VanhShop',
     info: 'Thông tin tài khoản',
     order: 'Đơn hàng',
     'address-book': 'Sổ địa chỉ',
@@ -96,7 +96,7 @@ export default {
     'edit-title': 'Chỉnh sửa địa chỉ'
   },
   cart: {
-    'page-title': 'Giỏ hàng | HK Mobile',
+    'page-title': 'Giỏ hàng | VanhShop',
     title: 'Giỏ hàng',
     'title-detail': 'Chi tiết giỏ hàng',
     item: 'sản phẩm',
@@ -153,8 +153,8 @@ export default {
     'delivery-to-home-desc': 'Cung cấp cho chúng tôi địa chỉ, đơn hàng sẽ được giao đến tận nhà cho bạn!'
   },
   order: {
-    'page-title': 'Đơn hàng | HK Mobile',
-    'dashboard-page-title': 'Quản lý Đơn hàng | HK Mobile',
+    'page-title': 'Đơn hàng | VanhShop',
+    'dashboard-page-title': 'Quản lý Đơn hàng | VanhShop',
     heading: 'Danh sách Đơn hàng',
     title: 'Đơn hàng',
     'search-placeholder': 'Tìm kiếm đơn hàng ...',
@@ -197,9 +197,9 @@ export default {
   },
   auth: {
     'page-title': {
-      login: 'Đăng nhập | HK Mobile',
-      register: 'Đăng ký | HK Mobile',
-      'reset-password': 'Đặt lại mật khẩu | HK Mobile'
+      login: 'Đăng nhập | VanhShop',
+      register: 'Đăng ký | VanhShop',
+      'reset-password': 'Đặt lại mật khẩu | VanhShop'
     },
     salutation: 'Chào mừng quay trở lại !',
     register: 'Đăng ký',
@@ -248,11 +248,11 @@ export default {
     'role-staff': 'Nhân viên',
     'role-customer': 'Khách hàng',
 
-    'accept-terms': 'Khi đăng ký, bạn đã đồng ý với HK Mobile về',
+    'accept-terms': 'Khi đăng ký, bạn đã đồng ý với VanhShop về',
     tos: 'Điều khoản sử dụng',
     'privacy-policy': 'Chính sách bảo mật',
 
-    'register-salutation': 'Gia nhập HK Mobile ngay hôm nay',
+    'register-salutation': 'Gia nhập VanhShop ngay hôm nay',
     'register-title': 'Đăng ký thành viên',
     'register-subtitle': 'Tích điểm và nhận được nhiều ưu đãi hấp dẫn',
     'register-success': 'Đăng ký thành công !',
@@ -291,7 +291,7 @@ export default {
     'created-at': 'Ngày tạo',
     'updated-at': 'Ngày sửa',
     categories: {
-      'page-title': 'Quản lý Danh mục | HK Mobile',
+      'page-title': 'Quản lý Danh mục | VanhShop',
       heading: 'Danh sách Danh mục',
       title: 'Danh mục',
       'title-not-found': 'Danh sách danh mục rỗng!',
@@ -316,7 +316,7 @@ export default {
       available: 'Số SP'
     },
     brands: {
-      'page-title': 'Quản lý Thương hiệu | HK Mobile',
+      'page-title': 'Quản lý Thương hiệu | VanhShop',
       title: 'Thương hiệu',
       heading: 'Danh sách Thương hiệu',
       'search-brand-placeholder': 'Tìm kiếm thương hiệu ...',
@@ -340,7 +340,7 @@ export default {
       visible: 'Hiển thị'
     },
     discounts: {
-      'page-title': 'Quản lý Giảm giá | HK Mobile',
+      'page-title': 'Quản lý Giảm giá | VanhShop',
       title: 'Khuyến mãi',
       heading: 'Danh sách khuyến mãi',
       'search-placeholder': 'Tìm kiếm mã khuyến mãi...',
@@ -374,7 +374,7 @@ export default {
       'date-end': 'Ngày kết thúc'
     },
     users: {
-      'page-title': 'User management | HK Mobile',
+      'page-title': 'User management | VanhShop',
       title: 'Người dùng',
       'staff-list': 'Danh sách nhân viên',
       'customer-list': 'Danh sách khách hàng',
@@ -429,7 +429,7 @@ export default {
   },
   products: {
     fee: 'Giá liên hệ',
-    'page-title': 'Quản lý sản phẩm | HK Mobile',
+    'page-title': 'Quản lý sản phẩm | VanhShop',
     title: 'Sản phẩm',
     list: 'Danh sách sản phẩm',
     'list-me': 'SẢN PHẨM DÀNH CHO BẠN',
@@ -442,10 +442,10 @@ export default {
     add: 'Thêm sản phẩm',
     create: 'Thêm sản phẩm',
     save: 'Lưu lại',
-    'add-title': 'Ecommerce: Add new product | HK Mobile',
+    'add-title': 'Ecommerce: Add new product | VanhShop',
     'add-success': 'Thêm sản phẩm mới thành công',
     edit: 'Chỉnh sửa sản phẩm',
-    'edit-title': 'Ecommerce: Edit new product | HK Mobile',
+    'edit-title': 'Ecommerce: Edit new product | VanhShop',
     delete: 'Xóa sản phẩm',
     'confirm-delete': 'Bạn có muốn xoá sản phẩm - {{nameInfo}}?',
     name: 'Tên sản phẩm',
@@ -483,7 +483,7 @@ export default {
     error: 'An error occurred, please try again.',
     'label-toolbar': 'Hiển thị sản phẩm đã ẩn',
     'infor-1-title': '100% Chính hãng',
-    'infor-1-content': 'Tất cả các sản phẩm tại HK Mobile đều là hàng chính hãng tại Việt Nam',
+    'infor-1-content': 'Tất cả các sản phẩm tại VanhShop đều là hàng chính hãng tại Việt Nam',
     'infor-2-title': '15 ngày đổi trả',
     'infor-2-content': 'Cam kết đổi trả trong vòng 15 ngày nếu xảy ra lỗi',
     'infor-3-title': 'Bảo hành chính hãng',

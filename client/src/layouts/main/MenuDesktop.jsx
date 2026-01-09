@@ -18,9 +18,10 @@ const LinkStyle = styled(Link)(({ theme }) => ({
   transition: theme.transitions.create('opacity', {
     duration: theme.transitions.duration.shortest
   }),
-  textOverflow: 'ellipsis',
-  overflow: 'hidden',
+  // textOverflow: 'ellipsis',
+  // overflow: 'hidden',
   whiteSpace: 'nowrap',
+  flexShrink: 0,
   display: 'flex',
   cursor: 'pointer',
   alignItems: 'center',
@@ -79,7 +80,7 @@ function MenuDesktopItem({ item, pathname, isHome, isOpen, isOffset, onOpen, onC
             ...(isOpen && { opacity: 0.48 })
           }}
         >
-          {title.length > 25 ? `${title.substring(0, 22)}...` : title}
+          {title}
           <Box
             component={Icon}
             icon={isOpen ? arrowIosUpwardFill : arrowIosDownwardFill}
@@ -158,16 +159,27 @@ function MenuDesktopItem({ item, pathname, isHome, isOpen, isOffset, onOpen, onC
                             }}
                           >
                             <Box
-                              component={motion.img}
-                              whileTap="tap"
-                              whileHover="hover"
-                              variants={{
-                                hover: { scale: 1.02 },
-                                tap: { scale: 0.98 }
+                              sx={{
+                                maxHeight: '60vh',
+                                overflowY: 'auto',
+                                '&::-webkit-scrollbar': {
+                                  display: 'none'
+                                },
+                                scrollbarWidth: 'none'
                               }}
-                              src="/static/illustrations/illustration_dashboard.png"
-                              sx={{ minWidth: 420 }}
-                            />
+                            >
+                              <Box
+                                component={motion.img}
+                                whileTap="tap"
+                                whileHover="hover"
+                                variants={{
+                                  hover: { scale: 1.02 },
+                                  tap: { scale: 0.98 }
+                                }}
+                                src="/static/illustrations/illustration_dashboard.png"
+                                sx={{ minWidth: 420 }}
+                              />
+                            </Box>
                           </CardActionArea>
                         ) : (
                           <>
@@ -248,7 +260,19 @@ export default function MenuDesktop({ isOffset, isHome, navConfig }) {
   };
 
   return (
-    <Stack direction="row" sx={{ height: '100%', alignItems: 'center' }}>
+    <Stack
+      direction="row"
+      sx={{
+        height: '100%',
+        alignItems: 'center',
+        overflowX: 'auto',
+        maxWidth: '100%',
+        '&::-webkit-scrollbar': {
+          display: 'none'
+        },
+        scrollbarWidth: 'none'
+      }}
+    >
       {navConfig.map((link) => (
         <MenuDesktopItem
           key={link.title}

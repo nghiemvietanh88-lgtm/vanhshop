@@ -311,7 +311,7 @@ export default function DiscountForm({ currentId, open, setOpen }) {
                     required
                     fullWidth
                     label={t('dashboard.discounts.code')}
-                    {...getFieldProps('code')}
+                    value={discountData.code}
                     onChange={handleChangeCode}
                     error={Boolean(touched.code && errors.code)}
                     helperText={touched.code && errors.code}

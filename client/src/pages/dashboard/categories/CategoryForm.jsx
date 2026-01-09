@@ -221,7 +221,7 @@ export default function CategoryForm({ currentId, open, setOpen }) {
                     fullWidth
                     inputProps={{ minLength: 6, maxLength: 25 }}
                     label={t('dashboard.categories.name')}
-                    {...getFieldProps('name')}
+                    value={categoryData.name}
                     error={Boolean(touched.name && errors.name)}
                     helperText={touched.name && errors.name}
                     onChange={(e) => setCategoryData({ ...categoryData, name: e.target.value })}
@@ -234,7 +234,7 @@ export default function CategoryForm({ currentId, open, setOpen }) {
                     label={t('dashboard.categories.desc')}
                     multiline
                     rows={3}
-                    {...getFieldProps('desc')}
+                    value={categoryData.desc}
                     error={Boolean(touched.desc && errors.desc)}
                     helperText={touched.desc && errors.desc}
                     onChange={(e) => setCategoryData({ ...categoryData, desc: e.target.value })}

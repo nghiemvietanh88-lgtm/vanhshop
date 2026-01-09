@@ -3,6 +3,9 @@ import { NavLink as RouterLink } from 'react-router-dom';
 // icons
 import { Icon } from '@iconify/react';
 import menu2Fill from '@iconify/icons-eva/menu-2-fill';
+import homeFill from '@iconify/icons-eva/home-fill';
+import personFill from '@iconify/icons-eva/person-fill';
+import settings2Fill from '@iconify/icons-eva/settings-2-fill';
 // material
 import { alpha, experimentalStyled as styled } from '@material-ui/core/styles';
 import { Box, Stack, AppBar, Toolbar, IconButton } from '@material-ui/core';
@@ -13,6 +16,7 @@ import DashboardSearchBar from './DashboardSearchBar';
 import AccountPopover from '../common/AccountPopover';
 import LanguagePopover from '../common/LanguagePopover';
 import NotificationsPopover from './NotificationsPopover';
+import { PATH_DASHBOARD } from '../../routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -63,7 +67,13 @@ export default function DashboardNavbar({ onOpenSidebar }) {
         <Stack direction="row" spacing={{ xs: 0.5, sm: 1.5 }}>
           <LanguagePopover />
           <NotificationsPopover />
-          <AccountPopover />
+          <AccountPopover
+            menuOptions={[
+              { label: 'Trang chủ', icon: homeFill, linkTo: '/' },
+              { label: 'Tài khoản', icon: personFill, linkTo: PATH_DASHBOARD.app.profile },
+              { label: 'Cài đặt', icon: settings2Fill, linkTo: PATH_DASHBOARD.app.account_setting }
+            ]}
+          />
         </Stack>
       </ToolbarStyle>
     </RootStyle>

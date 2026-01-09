@@ -15,7 +15,7 @@ import useLocales from '../../hooks/useLocales';
 // ----------------------------------------------------------------------
 
 const SOCIALS = [
-  { name: 'FaceBook', icon: facebookFill, url: 'https://www.facebook.com/hkmobileshop' },
+  { name: 'FaceBook', icon: facebookFill, url: 'https://www.facebook.com/' },
   { name: 'Google', icon: googleFill, url: 'https://www.google.com/' },
   { name: 'Linkedin', icon: linkedinFill, url: 'https://www.linkedin.com/' },
   { name: 'Twitter', icon: twitterFill, url: 'https://www.twitter.com/' }
@@ -72,7 +72,7 @@ export default function MainFooter() {
           </Grid>
           <Grid item xs={8} md={3}>
             <Typography variant="body2" sx={{ pr: { md: 5 } }}>
-              Success or failure in business depends more on attitude in thinking than in ability to think.
+              VanhSHOP là nơi lựa chọn của mọi nhà, hãy đến với chúng tôi để có những trải nghiệm tốt nhất khi sử dụng dịch vụ
             </Typography>
 
             <Stack
@@ -133,7 +133,7 @@ export default function MainFooter() {
             textAlign: { xs: 'center', md: 'left' }
           }}
         >
-          &copy; 2021 HK Mobile. All rights reserved
+          &copy; 2026 VanhShop. All rights reserved
         </Typography>
       </Container>
     </RootStyle>

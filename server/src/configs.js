@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv';
-import { cleanEnv, str, email, json, port } from 'envalid';
+import { cleanEnv, str, port } from 'envalid';
 
 dotenv.config();
 
@@ -22,6 +22,12 @@ const env = cleanEnv(process.env, {
   MAILER_AUTH_PASS: str({}),
   MAILER_AUTH_USER: str({}),
   MAILER_SERVICE: str({ default: 'gmail' }),
+
+  SMTP_HOST: str({ default: '' }),
+  SMTP_PORT: port({ default: 587 }),
+  SMTP_USER: str({ default: '' }),
+  SMTP_PASSWORD: str({ default: '' }),
+  SMTP_SECURE: str({ default: 'false' }),
 
   VNPAY_SECRET: str({}),
   VNPAY_TMN_CODE: str({}),
@@ -52,8 +58,11 @@ const configs = {
 
   mailer: {
     service: env.MAILER_SERVICE,
-    user: env.MAILER_AUTH_USER,
-    pass: env.MAILER_AUTH_PASS,
+    user: env.SMTP_USER || env.MAILER_AUTH_USER,
+    pass: env.SMTP_PASSWORD || env.MAILER_AUTH_PASS,
+    host: env.SMTP_HOST,
+    port: env.SMTP_PORT,
+    secure: env.SMTP_SECURE === 'true',
   },
 
   vnPay: {

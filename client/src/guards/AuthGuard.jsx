@@ -29,7 +29,7 @@ export default function AuthGuard({ children }) {
     return <Navigate to={requestedLocation} />;
   }
 
-  if (pathname?.startsWith('/dashboard') && !['admin', 'staff'].includes(user.role)) {
+  if (pathname?.startsWith('/dashboard') && user.role !== 'admin') {
     return <Navigate to="/" />;
   }
 

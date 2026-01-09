@@ -8,6 +8,7 @@ import baselineSettings from '@iconify/icons-ic/baseline-settings';
 import roundAccountBox from '@iconify/icons-ic/round-account-box';
 import roundReceipt from '@iconify/icons-ic/round-receipt';
 import roundVpnKey from '@iconify/icons-ic/round-vpn-key';
+import gridFill from '@iconify/icons-eva/grid-fill';
 import { Icon } from '@iconify/react';
 // material
 import { AppBar, Box, Container, IconButton, Stack, Toolbar } from '@material-ui/core';
@@ -19,6 +20,9 @@ import { MBadge, MButton, MHidden } from '../../components/@material-extend';
 import Logo from '../../components/Logo';
 import LogoFull from '../../components/LogoFull';
 //
+//
+import { PATH_DASHBOARD } from '../../routes/paths';
+import useAuth from '../../hooks/useAuth';
 import AccountPopover from '../common/AccountPopover';
 import LanguagePopover from '../common/LanguagePopover';
 import MenuDesktop from './MenuDesktop';
@@ -122,6 +126,7 @@ MainNavbar.propTypes = {
 
 function MainNavbar({ categoryList, showCategoryMenu, cartItemsCount }) {
   const { t } = useLocales();
+  const { user } = useAuth();
   const isOffset = useOffSetTop(100);
 
   const accountMenus = [
@@ -152,6 +157,14 @@ function MainNavbar({ categoryList, showCategoryMenu, cartItemsCount }) {
       isDevelop: true
     }
   ];
+
+  if (user?.role === 'admin') {
+    accountMenus.unshift({
+      label: 'Vào dashboard',
+      icon: gridFill,
+      linkTo: PATH_DASHBOARD.root
+    });
+  }
 
   return (
     <AppBar color="default" sx={{ boxShadow: 0 }}>

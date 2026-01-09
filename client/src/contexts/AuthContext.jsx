@@ -160,7 +160,7 @@ function AuthProvider({ children }) {
 
       localStorage.setItem('currentUser', JSON.stringify(user));
 
-      if (user?.role === 'admin' || user?.role === 'staff') {
+      if (user?.role === 'admin') {
         window.location.href = '/dashboard/statics';
       }
     } catch (e) {
